@@ -1,6 +1,6 @@
 [[_index|Motivações]]
 [[A família]]
-[[O meu entendimento de família]]
+[[meu_entendimento_familia]]
 [[Relação com irmãs]]
 [[Morando longe]]
 [[Migração, lealdade e mitos]]
