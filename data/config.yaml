@@ -4,7 +4,7 @@ openToc: false
 enableLinkPreview: true
 enableLatex: true
 enableSPA: true
-enableFooter: false
+enableFooter: true
 enableContextualBacklinks: false
 enableRecentNotes: false
 description:
