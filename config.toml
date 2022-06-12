@@ -1,5 +1,5 @@
 baseURL = "https://l4nly.github.io/ensaio/"
-languageCode = "en-us"
+languageCode = "pt-br"
 googleAnalytics = "G-XYFD95KB4J"
 pygmentsUseClasses = true
 relativeURLs = false
