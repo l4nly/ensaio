@@ -4,13 +4,13 @@ openToc: false
 enableLinkPreview: true
 enableLatex: true
 enableSPA: true
-enableFooter: true
-enableContextualBacklinks: true
+enableFooter: false
+enableContextualBacklinks: false
 enableRecentNotes: false
 description:
   Trabalho avaliativo da disciplina Psicologia da família
 page_title:
-  "Psicologia da 👪"
+  "👪"
 links:
 
 
