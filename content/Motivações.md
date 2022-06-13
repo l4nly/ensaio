@@ -1,6 +1,7 @@
 ---
-title: Motivações
+title: Introdução
 ---
+####  Motivações 
 
 Para começar,  e sendo bem sincero comigo mesmo, esse trabalho, além do objetivo primário que é ser aprovado na matéria, durante o processo de idealização e construção, percebi o quão catárstico esse trabalho foi, principalmente pelo fato de me fazer pensar questões que eu nunca havia notado dentro das minhas relações familiares. A intenção de construir esse trabalho como website foi experimentar e explorar outros campos do conhecimento.
 
