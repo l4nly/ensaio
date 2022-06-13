@@ -27,4 +27,4 @@ Movimentos: Casa dos pais (0~14) -> Irmã(14~22) -> Primo (22~24) -> Sozinho(24~
 
 ----------------------
 
-#### [[Menu de Navegação| Menu de navegação]]	
+#### [[Menu de Navegação]]	

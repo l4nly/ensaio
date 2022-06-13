@@ -2,7 +2,7 @@
 title: Mapa do site
 ---
 
--[[Motivações]] ^65f433
+-[[Motivações]]
 
 -[[A família]]
 
