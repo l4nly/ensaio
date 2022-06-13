@@ -6,7 +6,7 @@ A característica que mais marca a minha família é sem dúvida os processos mi
 
 Uma outra caracteristica que vejo atravessando a minha família nuclear é como as figuras femininas, mesmo sendo a fonte da principal de renda de suas respectivas casas, possuem expressivamente mais tarefas domésticas que seus maridos. Sob a minha ótica, utilizando uma análise como a proposta por Osório, et al (Ano, p.) ao sugerir analisar o aspecto da participação masculina nas tarefas domésticas levando em consideração as diversas fases do ciclo vital familiar, se enquadra perfeitamente com os resultados apresentados por Osório em sua pesquisa, onde os homens tendem a participar das atividades na fase de aquisição e tendem a abandona-los durante as fases subsequentes.  
 
-##### Breve descrição dos membros
+##### Contextualização Familia nuclear
 
 Pai: Homem, 61 anos, segundo de seis irmãos. Ensino médio completo. Produtor rural.
 
@@ -24,6 +24,9 @@ Eu: 24 anos. Estudante. Solteiro.
 
 Movimentos: Casa dos pais (0~14) -> Irmã(14~22) -> Primo (22~24) -> Sozinho(24~)
 
+#### Contexto de migração na família
+
+![Genograma](geno.png)
 
 ----------------------
 
