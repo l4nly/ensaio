@@ -26,9 +26,11 @@ Movimentos: Casa dos pais (0~14) -> Irmã(14~22) -> Primo (22~24) -> Sozinho(24~
 
 #### Contexto de migração na família
 
-![geno](/content/geno.png)
 
+<img src="<https://raw.githubusercontent.com/l4nly/ensaio/hugo/content/geno.png>"
+	 />
 
 ----------------------
 
 #### [[Menu de Navegação]]	
+	 
