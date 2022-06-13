@@ -1,18 +1,17 @@
 name: Luan
-enableToc: true
+enableToc: false
 openToc: false
 enableLinkPreview: true
 enableLatex: true
 enableSPA: true
 enableFooter: true
-enableContextualBacklinks: true
-enableRecentNotes: false
+enableContextualBacklinks: false
+enableRecentNotes: true
 description:
   Trabalho avaliativo da disciplina Psicologia da família
 page_title:
   "👪"
 links:
 <a href=mailto:luanlealmonteiro@gmail.com
-subject="link HTML">
-Clique aqui para nos enviar um e-mail!</a>
+ML">Clique aqui para nos enviar um e-mail!</a>
 
