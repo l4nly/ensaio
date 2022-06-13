@@ -5,7 +5,7 @@ enableLinkPreview: true
 enableLatex: true
 enableSPA: true
 enableFooter: true
-disableBacklinks: true
+disablebacklinks: true
 enableContextualBacklinks: false
 enableRecentNotes: false
 description:
