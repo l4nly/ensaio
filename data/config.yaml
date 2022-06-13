@@ -5,8 +5,8 @@ enableLinkPreview: true
 enableLatex: true
 enableSPA: true
 enableFooter: true
-enableContextualBacklinks: false
-enableRecentNotes: false
+enableContextualBacklinks: true
+enableRecentNotes: true
 description:
   Trabalho avaliativo da disciplina Psicologia da família
 page_title:
