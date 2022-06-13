@@ -5,11 +5,11 @@ enableLinkPreview: true
 enableLatex: true
 enableSPA: true
 enableFooter: true
-enableContextualBacklinks: true
+enableContextualBacklinks: false
 enableRecentNotes: false
 description:
   Trabalho avaliativo da disciplina Psicologia da família
 page_title:
-  "👪 Ensaio de Psicologia da Família"
+  "👪 Ensaio de Psicologia da Família 👪"
 links:
 
