@@ -1,4 +1,4 @@
-name: Luan
+name: L4nly
 enableToc: false
 openToc: false
 enableLinkPreview: true
@@ -12,4 +12,6 @@ description:
 page_title:
   "👪 Ensaio de Psicologia da Família 👪"
 links:
+  - link_name: Contato
+    link: <a href = "mailto: luanlealmonteiro@gmail.com">Contato</a>
 
