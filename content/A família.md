@@ -1,6 +1,6 @@
 ---
 title: "A família"
-disableBacklinks: true
+enableGlobalGraphs: true
 ---
 
 A característica que mais marca a minha família é sem dúvida os processos migratórios que grande parte dos membros vivenciam no decorrer de sua vida. Em função de ser uma família oriunda de uma cidade muito pequena do interior, sem muita oportunidades de emprego ou estudo, desde a geração dos meus pais, é muito comum que os membros saiam em busca de oportunidades em grandes centros, processo que é definido por Osório, et al (Ano, p. 35) como migração interna.
