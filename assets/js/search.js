@@ -1,270 +1,261 @@
-async function drawGraph(baseUrl, isHome, pathColors, graphConfig) {
+// code from https://github.com/danestves/markdown-to-text
+const removeMarkdown = (
+  markdown,
+  options = {
+    listUnicodeChar: false,
+    stripListLeaders: true,
+    gfm: true,
+    useImgAltText: false,
+    preserveLinks: false,
+  },
+) => {
+  let output = markdown || ""
+  output = output.replace(/^(-\s*?|\*\s*?|_\s*?){3,}\s*$/gm, "")
 
-  let {
-  depth,
-  enableDrag,
-  enableLegend,
-  enableZoom,
-  opacityScale,
-  scale,
-  repelForce,
-  fontSize} = graphConfig;
-
-  const container = document.getElementById("graph-container")
-  const { index, links, content } = await fetchData
-
-  // Use .pathname to remove hashes / searchParams / text fragments
-  const cleanUrl = window.location.origin + window.location.pathname
-
-  const curPage = cleanUrl.replace(/\/$/g, "").replace(baseUrl, "")
-
-  const parseIdsFromLinks = (links) => [
-    ...new Set(links.flatMap((link) => [link.source, link.target])),
-  ]
-
-  // Links is mutated by d3. We want to use links later on, so we make a copy and pass that one to d3
-  // Note: shallow cloning does not work because it copies over references from the original array
-  const copyLinks = JSON.parse(JSON.stringify(links))
-
-  const neighbours = new Set()
-  const wl = [curPage || "/", "__SENTINEL"]
-  if (depth >= 0) {
-    while (depth >= 0 && wl.length > 0) {
-      // compute neighbours
-      const cur = wl.shift()
-      if (cur === "__SENTINEL") {
-        depth--
-        wl.push("__SENTINEL")
-      } else {
-        neighbours.add(cur)
-        const outgoing = index.links[cur] || []
-        const incoming = index.backlinks[cur] || []
-        wl.push(...outgoing.map((l) => l.target), ...incoming.map((l) => l.source))
-      }
+  try {
+    if (options.stripListLeaders) {
+      if (options.listUnicodeChar)
+        output = output.replace(/^([\s\t]*)([\*\-\+]|\d+\.)\s+/gm, options.listUnicodeChar + " $1")
+      else output = output.replace(/^([\s\t]*)([\*\-\+]|\d+\.)\s+/gm, "$1")
     }
-  } else {
-    parseIdsFromLinks(copyLinks).forEach((id) => neighbours.add(id))
-  }
-
-  const data = {
-    nodes: [...neighbours].map((id) => ({ id })),
-    links: copyLinks.filter((l) => neighbours.has(l.source) && neighbours.has(l.target)),
-  }
-
-  const color = (d) => {
-    if (d.id === curPage || (d.id === "/" && curPage === "")) {
-      return "var(--g-node-active)"
+    if (options.gfm) {
+      output = output
+        .replace(/\n={2,}/g, "\n")
+        .replace(/~{3}.*\n/g, "")
+        .replace(/~~/g, "")
+        .replace(/`{3}.*\n/g, "")
     }
-
-    for (const pathColor of pathColors) {
-      const path = Object.keys(pathColor)[0]
-      const colour = pathColor[path]
-      if (d.id.startsWith(path)) {
-        return colour
-      }
+    if (options.preserveLinks) {
+      output = output.replace(/\[(.*?)\][\[\(](.*?)[\]\)]/g, "$1 ($2)")
     }
-
-    return "var(--g-node)"
+    output = output
+      .replace(/<[^>]*>/g, "")
+      .replace(/^[=\-]{2,}\s*$/g, "")
+      .replace(/\[\^.+?\](\: .*?$)?/g, "")
+      .replace(/(#{1,6})\s+(.+)\1?/g, "<b>$2</b>")
+      .replace(/\s{0,2}\[.*?\]: .*?$/g, "")
+      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, options.useImgAltText ? "$1" : "")
+      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, "<a>$1</a>")
+      .replace(/!?\[\[\S[^\[\]\|]*(?:\|([^\[\]]*))?\S\]\]/g, "<a>$1</a>")
+      .replace(/^\s{0,3}>\s?/g, "")
+      .replace(/(^|\n)\s{0,3}>\s?/g, "\n\n")
+      .replace(/^\s{1,2}\[(.*?)\]: (\S+)( ".*?")?\s*$/g, "")
+      .replace(/([\*_]{1,3})(\S.*?\S{0,1})\1/g, "$2")
+      .replace(/([\*_]{1,3})(\S.*?\S{0,1})\1/g, "$2")
+      .replace(/(`{3,})(.*?)\1/gm, "$2")
+      .replace(/`(.+?)`/g, "$1")
+      .replace(/\n{2,}/g, "\n\n")
+  } catch (e) {
+    console.error(e)
+    return markdown
   }
-
-  const drag = (simulation) => {
-    function dragstarted(event, d) {
-      if (!event.active) simulation.alphaTarget(1).restart()
-      d.fx = d.x
-      d.fy = d.y
-    }
-
-    function dragged(event, d) {
-      d.fx = event.x
-      d.fy = event.y
-    }
-
-    function dragended(event, d) {
-      if (!event.active) simulation.alphaTarget(0)
-      d.fx = null
-      d.fy = null
-    }
-
-    const noop = () => {}
-    return d3
-      .drag()
-      .on("start", enableDrag ? dragstarted : noop)
-      .on("drag", enableDrag ? dragged : noop)
-      .on("end", enableDrag ? dragended : noop)
-  }
-
-  const height = Math.max(container.offsetHeight, isHome ? 500 : 250)
-  const width = container.offsetWidth
-
-  const simulation = d3
-    .forceSimulation(data.nodes)
-    .force("charge", d3.forceManyBody().strength(-100 * repelForce))
-    .force(
-      "link",
-      d3
-        .forceLink(data.links)
-        .id((d) => d.id)
-        .distance(40),
-    )
-    .force("center", d3.forceCenter())
-
-  const svg = d3
-    .select("#graph-container")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr('viewBox', [-width / 2 * 1 / scale, -height / 2 * 1 / scale, width * 1 / scale, height * 1 / scale])
-
-  if (enableLegend) {
-    const legend = [{ Current: "var(--g-node-active)" }, { Note: "var(--g-node)" }, ...pathColors]
-    legend.forEach((legendEntry, i) => {
-      const key = Object.keys(legendEntry)[0]
-      const colour = legendEntry[key]
-      svg
-        .append("circle")
-        .attr("cx", -width / 2 + 20)
-        .attr("cy", height / 2 - 30 * (i + 1))
-        .attr("r", 6)
-        .style("fill", colour)
-      svg
-        .append("text")
-        .attr("x", -width / 2 + 40)
-        .attr("y", height / 2 - 30 * (i + 1))
-        .text(key)
-        .style("font-size", "15px")
-        .attr("alignment-baseline", "middle")
-    })
-  }
-
-  // draw links between nodes
-  const link = svg
-    .append("g")
-    .selectAll("line")
-    .data(data.links)
-    .join("line")
-    .attr("class", "link")
-    .attr("stroke", "var(--g-link)")
-    .attr("stroke-width", 2)
-    .attr("data-source", (d) => d.source.id)
-    .attr("data-target", (d) => d.target.id)
-
-  // svg groups
-  const graphNode = svg.append("g").selectAll("g").data(data.nodes).enter().append("g")
-
-  // calculate radius
-  const nodeRadius = (d) => {
-    const numOut = index.links[d.id]?.length || 0
-    const numIn = index.backlinks[d.id]?.length || 0
-    return 3 + (numOut + numIn) / 4
-  }
-
-  // draw individual nodes
-  const node = graphNode
-    .append("circle")
-    .attr("class", "node")
-    .attr("id", (d) => d.id)
-    .attr("r", nodeRadius)
-    .attr("fill", color)
-    .style("cursor", "pointer")
-    .on("click", (_, d) => {
-      // SPA navigation
-      window.Million.navigate(new URL(`${baseUrl}${decodeURI(d.id).replace(/\s+/g, "-")}/`), ".singlePage")
-    })
-    .on("mouseover", function (_, d) {
-      d3.selectAll(".node").transition().duration(100).attr("fill", "var(--g-node-inactive)")
-
-      const neighbours = parseIdsFromLinks([
-        ...(index.links[d.id] || []),
-        ...(index.backlinks[d.id] || []),
-      ])
-      const neighbourNodes = d3.selectAll(".node").filter((d) => neighbours.includes(d.id))
-      const currentId = d.id
-      window.Million.prefetch(new URL(`${baseUrl}${decodeURI(d.id).replace(/\s+/g, "-")}/`))
-      const linkNodes = d3
-        .selectAll(".link")
-        .filter((d) => d.source.id === currentId || d.target.id === currentId)
-
-      // highlight neighbour nodes
-      neighbourNodes.transition().duration(200).attr("fill", color)
-
-      // highlight links
-      linkNodes.transition().duration(200).attr("stroke", "var(--g-link-active)")
-
-      const bigFont = fontSize*1.5
-
-      // show text for self
-      d3.select(this.parentNode)
-        .raise()
-        .select("text")
-        .transition()
-        .duration(200)
-        .attr('opacityOld', d3.select(this.parentNode).select('text').style("opacity"))
-        .style('opacity', 1)
-        .style('font-size', bigFont+'em')
-        .attr('dy', d => nodeRadius(d) + 20 + 'px') // radius is in px
-    })
-    .on("mouseleave", function (_, d) {
-      d3.selectAll(".node").transition().duration(200).attr("fill", color)
-
-      const currentId = d.id
-      const linkNodes = d3
-        .selectAll(".link")
-        .filter((d) => d.source.id === currentId || d.target.id === currentId)
-
-      linkNodes.transition().duration(200).attr("stroke", "var(--g-link)")
-
-      d3.select(this.parentNode)
-      .select("text")
-      .transition()
-      .duration(200)
-      .style('opacity', d3.select(this.parentNode).select('text').attr("opacityOld"))
-      .style('font-size', fontSize+'em')
-      .attr('dy', d => nodeRadius(d) + 8 + 'px') // radius is in px
-    })
-    .call(drag(simulation))
-
-  // draw labels
-  const labels = graphNode
-    .append("text")
-    .attr("dx", 0)
-    .attr("dy", (d) => nodeRadius(d) + 8 + "px")
-    .attr("text-anchor", "middle")
-    .text((d) => content[d.id]?.title || d.id.replace("-", " "))
-    .style('opacity', (opacityScale - 1) / 3.75)
-    .style("pointer-events", "none")
-    .style('font-size', fontSize+'em')
-    .raise()
-    .call(drag(simulation))
-
-  // set panning
-
-  if (enableZoom) {
-    svg.call(
-      d3
-        .zoom()
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
-        .scaleExtent([0.25, 4])
-        .on("zoom", ({ transform }) => {
-          link.attr("transform", transform)
-          node.attr("transform", transform)
-          const scale = transform.k * opacityScale;
-          const scaledOpacity = Math.max((scale - 1) / 3.75, 0)
-          labels.attr("transform", transform).style("opacity", scaledOpacity)
-        }),
-    )
-  }
-
-  // progress the simulation
-  simulation.on("tick", () => {
-    link
-      .attr("x1", (d) => d.source.x)
-      .attr("y1", (d) => d.source.y)
-      .attr("x2", (d) => d.target.x)
-      .attr("y2", (d) => d.target.y)
-    node.attr("cx", (d) => d.x).attr("cy", (d) => d.y)
-    labels.attr("x", (d) => d.x).attr("y", (d) => d.y)
-  })
+  return output
 }
+// -----
+
+const highlight = (content, term) => {
+  const highlightWindow = 20
+
+  // try to find direct match first
+  const directMatchIdx = content.indexOf(term)
+  if (directMatchIdx !== -1) {
+    const h = highlightWindow / 2
+    const before = content.substring(0, directMatchIdx).split(" ").slice(-h)
+    const after = content
+      .substring(directMatchIdx + term.length, content.length - 1)
+      .split(" ")
+      .slice(0, h)
+    return (
+      (before.length == h ? `...${before.join(" ")}` : before.join(" ")) +
+      `<span class="search-highlight">${term}</span>` +
+      after.join(" ")
+    )
+  }
+
+  const tokenizedTerm = term.split(/\s+/).filter((t) => t !== "")
+  const splitText = content.split(/\s+/).filter((t) => t !== "")
+  const includesCheck = (token) =>
+    tokenizedTerm.some((term) => token.toLowerCase().startsWith(term.toLowerCase()))
+
+  const occurrencesIndices = splitText.map(includesCheck)
+
+  // calculate best index
+  let bestSum = 0
+  let bestIndex = 0
+  for (let i = 0; i < Math.max(occurrencesIndices.length - highlightWindow, 0); i++) {
+    const window = occurrencesIndices.slice(i, i + highlightWindow)
+    const windowSum = window.reduce((total, cur) => total + cur, 0)
+    if (windowSum >= bestSum) {
+      bestSum = windowSum
+      bestIndex = i
+    }
+  }
+
+  const startIndex = Math.max(bestIndex - highlightWindow, 0)
+  const endIndex = Math.min(startIndex + 2 * highlightWindow, splitText.length)
+  const mappedText = splitText
+    .slice(startIndex, endIndex)
+    .map((token) => {
+      if (includesCheck(token)) {
+        return `<span class="search-highlight">${token}</span>`
+      }
+      return token
+    })
+    .join(" ")
+    .replaceAll('</span> <span class="search-highlight">', " ")
+  return `${startIndex === 0 ? "" : "..."}${mappedText}${
+    endIndex === splitText.length ? "" : "..."
+  }`
+}
+
+;(async function () {
+  const encoder = (str) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])+/)
+  const contentIndex = new FlexSearch.Document({
+    cache: true,
+    charset: "latin:extra",
+    optimize: true,
+    index: [
+      {
+        field: "content",
+        tokenize: "reverse",
+        encode: encoder,
+      },
+      {
+        field: "title",
+        tokenize: "forward",
+        encode: encoder,
+      },
+    ],
+  })
+
+  const { content } = await fetchData
+  for (const [key, value] of Object.entries(content)) {
+    contentIndex.add({
+      id: key,
+      title: value.title,
+      content: removeMarkdown(value.content),
+    })
+  }
+
+  const resultToHTML = ({ url, title, content, term }) => {
+    const text = removeMarkdown(content)
+    const resultTitle = highlight(title, term)
+    const resultText = highlight(text, term)
+    return `<button class="result-card" id="${url}">
+        <h3>${resultTitle}</h3>
+        <p>${resultText}</p>
+    </button>`
+  }
+
+  const redir = (id, term) => {
+    // SPA navigation
+    window.Million.navigate(
+      new URL(`${BASE_URL.replace(/\/$/g, "")}${id}#:~:text=${encodeURIComponent(term)}/`),
+      ".singlePage",
+    )
+    closeSearch()
+  }
+
+  const formatForDisplay = (id) => ({
+    id,
+    url: id,
+    title: content[id].title,
+    content: content[id].content,
+  })
+
+  const source = document.getElementById("search-bar")
+  const results = document.getElementById("results-container")
+  let term
+  source.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      const anchor = document.getElementsByClassName("result-card")[0]
+      redir(anchor.id, term)
+    }
+  })
+  source.addEventListener("input", (e) => {
+    term = e.target.value
+    const searchResults = contentIndex.search(term, [
+      {
+        field: "content",
+        limit: 10,
+      },
+      {
+        field: "title",
+        limit: 5,
+      },
+    ])
+    const getByField = (field) => {
+      const results = searchResults.filter((x) => x.field === field)
+      if (results.length === 0) {
+        return []
+      } else {
+        return [...results[0].result]
+      }
+    }
+    const allIds = new Set([...getByField("title"), ...getByField("content")])
+    const finalResults = [...allIds].map(formatForDisplay)
+
+    // display
+    if (finalResults.length === 0) {
+      results.innerHTML = `<button class="result-card">
+                    <h3>No results.</h3>
+                    <p>Try another search term?</p>
+                </button>`
+    } else {
+      results.innerHTML = finalResults
+        .map((result) =>
+          resultToHTML({
+            ...result,
+            term,
+          }),
+        )
+        .join("\n")
+      const anchors = [...document.getElementsByClassName("result-card")]
+      anchors.forEach((anchor) => {
+        anchor.onclick = () => redir(anchor.id, term)
+      })
+    }
+  })
+
+  const searchContainer = document.getElementById("search-container")
+
+  function openSearch() {
+    if (searchContainer.style.display === "none" || searchContainer.style.display === "") {
+      source.value = ""
+      results.innerHTML = ""
+      searchContainer.style.display = "block"
+      source.focus()
+    } else {
+      searchContainer.style.display = "none"
+    }
+  }
+
+  function closeSearch() {
+    searchContainer.style.display = "none"
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "k" && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault()
+      openSearch()
+    }
+    if (event.key === "Escape") {
+      event.preventDefault()
+      closeSearch()
+    }
+  })
+
+  const searchButton = document.getElementById("search-icon")
+  searchButton.addEventListener("click", (evt) => {
+    openSearch()
+  })
+  searchButton.addEventListener("keydown", (evt) => {
+    openSearch()
+  })
+  searchContainer.addEventListener("click", (evt) => {
+    closeSearch()
+  })
+  document.getElementById("search-space").addEventListener("click", (evt) => {
+    evt.stopPropagation()
+  })
+})()
