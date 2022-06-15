@@ -3,9 +3,9 @@ title: "A família"
 ---
 &nbsp;
 
-A característica que mais marca a minha família é sem dúvida os processos migratórios que grande parte dos membros vivenciam no decorrer de sua vida. Em função de ser uma família oriunda de uma cidade muito pequena do interior, sem muita oportunidades de emprego ou estudo, desde a geração dos meus pais, é muito comum que os membros saiam em busca de oportunidades em grandes centros, processo que é definido por Cerveny e Berthoud (Ano, p. 35) como migração interna.
+A característica que mais marca a minha família é sem dúvida os processos migratórios que grande parte dos membros vivenciam no decorrer de sua vida. Em função de ser uma família oriunda de uma cidade muito pequena do interior, sem muita oportunidades de emprego ou estudo, desde a geração dos meus pais, é muito comum que os membros saiam em busca de oportunidades em grandes centros, processo que é definido por Cerveny e Berthoud (2009, p. 35) como migração interna.
 
-Uma outra caracteristica que vejo atravessando a minha família nuclear é como as figuras femininas, mesmo sendo a fonte da principal de renda de suas respectivas casas, possuem expressivamente mais tarefas domésticas que seus maridos. Sob a minha ótica, utilizando uma análise como a proposta por Cerveny e Berthoud (Ano, p.) ao sugerir analisar o aspecto da participação masculina nas tarefas domésticas levando em consideração as diversas fases do ciclo vital familiar, se enquadra perfeitamente com os resultados apresentados por Cerveny em sua pesquisa, onde os homens tendem a participar das atividades na fase de aquisição e tendem a abandona-los durante as fases subsequentes.  
+Uma outra caracteristica que vejo atravessando a minha família nuclear é como as figuras femininas, mesmo sendo a fonte da principal de renda de suas respectivas casas, possuem expressivamente mais tarefas domésticas que seus maridos. Sob a minha ótica, utilizando uma análise como a proposta por Cerveny e Berthoud (2009, p 39) ao sugerir analisar o aspecto da participação masculina nas tarefas domésticas levando em consideração as diversas fases do ciclo vital familiar, se enquadra perfeitamente com os resultados apresentados por Cerveny em sua pesquisa, onde os homens tendem a participar das atividades na fase de aquisição e tendem a abandona-los durante as fases subsequentes.  
 
 &nbsp;
 
