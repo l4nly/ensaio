@@ -2,16 +2,18 @@
 title: Mapa do site
 ---
 
--[[Motivações]]
+- [[_index|Página inicial]]
 
--[[A família]]
+- [[Motivações]]
 
--[[Entendimento de família]]
+- [[A família]]
 
--[[Relação com irmãs]]
+- [[Entendimento de família]]
 
--[[Morando longe]]
+- [[Relação com irmãs]]
 
--[[Migração, lealdade e mitos]]
+- [[Morando longe]]
 
--[[Referencias|Referências]]
+- [[Migração, lealdade e mitos]]
+
+- [[Referencias|Referências]]
