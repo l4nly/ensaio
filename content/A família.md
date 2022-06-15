@@ -9,7 +9,7 @@ Uma outra caracteristica que vejo atravessando a minha família nuclear é como 
 
 &nbsp;
 
-#### Contextualização Família nuclear
+#### Contextualização família nuclear
 &nbsp;
 &nbsp;
 
@@ -19,7 +19,7 @@ Pai: Homem, 61 anos, segundo de seis irmãos. Ensino médio completo. Produtor r
 Mãe: 56 anos, terceira de oito irmãos. Nível superior. Servidora municipal em uma instituição de ensino.
 &nbsp;
 
-Irmã mais velha: 37 anos. Mestre. Servidora pública Federal em uma instituição de ensino. Casada, 1 filha.
+Irmã mais velha: 37 anos. Mestre. Servidora pública federal em uma instituição de ensino. Casada, 1 filha.
 
 Movimentos: Casa dos pais (0~14) --> Casa da tia (14~18) --> Irmã (18~20) --> Sozinha (20 ~22) --> Casa dos pais (22~23) --> Sozinha capital (23~29) --> Com o  marido e filha na cidade natal (29~) 
 &nbsp;
@@ -41,6 +41,7 @@ Movimentos: Casa dos pais (0~14) -> Irmã(14~22) -> Casa do primo (22~24) -> Soz
 &nbsp;
 
 ```
+Legenda:
 🟥: Residiu na cidade mas mora fora
 🟦: Reside na cidade
 🟣: Residiu em outro lugar mas mora na cidade
